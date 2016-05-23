@@ -1,7 +1,7 @@
 using Media, ..BlinkDisplay, ..DevTools, Blink, Lazy
 
 @init media(ProfileTree, Media.Graphical)
-BlinkDisplay.displaysize(::ProfileTree) = (480, 288)
+BlinkDisplay.displaysize(::ProfileTree) = (600,400)
 BlinkDisplay.displaytitle(::ProfileTree) = "Profile"
 
 function Media.render(view::WebView, x::ProfileTree; options = @d())

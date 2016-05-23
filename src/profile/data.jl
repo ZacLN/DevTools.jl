@@ -1,26 +1,17 @@
 # Get traces
+import Base.Profile: StackFrame
 
-import Base.Profile: LineInfo
-
-typealias IP UInt
-typealias RawData Vector{IP}
-typealias Trace Vector{LineInfo}
-
-const lidict = Dict{IP,LineInfo}()
-lookup(ip::IP) = haskey(lidict, ip) ? lidict[ip] : (lidict[ip] = Profile.lookup(ip))
-lookup(ips::RawData) = map(lookup, ips)
-
-pruneC(trace::Trace) = filter(line->!line.fromC, trace)
-
-traces(data::Vector{UInt}) =
-  @>> split(data, 0, keep=false) map(lookup) map!(pruneC) map!(reverse) filter!(t->!isempty(t))
-
-# Tree Implementation
+type ProfileNode
+    line::StackFrame
+    count::Int
+end
 
 immutable Node{T}
   data::T
   children::Vector{Node{T}}
 end
+
+typealias ProfileTree Node{ProfileNode}
 
 Node{T}(x::T) = Node(x, Node{T}[])
 Node{T}(x::T, children::Node{T}...) = Node(x, [children...])
@@ -30,16 +21,9 @@ isleaf(node::Node) = isempty(node.children)
 
 # Profile Trees
 
-type ProfileNode
-  line::LineInfo
-  count::Int
-end
+ProfileNode(line::StackFrame) = ProfileNode(line, 1)
 
-ProfileNode(line::LineInfo) = ProfileNode(line, 1)
-
-typealias ProfileTree Node{ProfileNode}
-
-tree(trace::Trace) =
+tree(trace::Vector{StackFrame}) =
   length(trace) ≤ 1 ?
     Node(ProfileNode(trace[1])) :
     Node(ProfileNode(trace[1]), tree(trace[2:end]))
@@ -47,7 +31,7 @@ tree(trace::Trace) =
 # Conceptually, a trace is a tree with no branches
 # We merge trees by (a) increasing the count of the common nodes
 # and (b) adding any new nodes as children.
-function Base.merge!(node::ProfileTree, trace::Trace)
+function Base.merge!(node::ProfileTree, trace::Vector{StackFrame})
   @assert !isempty(trace) && node.data.line == trace[1]
   node.data.count += 1
   length(trace) == 1 && return node
@@ -61,7 +45,7 @@ function Base.merge!(node::ProfileTree, trace::Trace)
   return node
 end
 
-function tree(traces::Vector{Trace})
+function tree(traces::Vector{Vector{StackFrame}})
   root = Node(ProfileNode(Profile.UNKNOWN))
   traces = map(trace -> [Profile.UNKNOWN, trace...], traces)
   for trace in traces
@@ -102,8 +86,27 @@ flatlines(tree::ProfileTree; total = tree.data.count) =
          d(tree.data.line=>tree.data.count/total),
          map(t->flatlines(t, total = total), tree.children))
 
-function fetch()
+
+
+function fetch(c=false)
   data = Profile.fetch()
   isempty(data) && error("You need to do some profiling first.")
-  @> data traces tree trimroot sortchildren!
+  traces = split(data,0,keep=false)
+  traces = Vector{StackFrame}[vcat(map(Profile.lookup,x)...) for x in traces]
+  !c && (traces = map(x->filter(line->!line.from_c,x),traces))
+  traces = map!(reverse,traces)
+  traces = filter(t->!isempty(t),traces)
+
+  root = Node(ProfileNode(Profile.UNKNOWN))
+  traces = map(trace -> [Profile.UNKNOWN, trace...], traces)
+  for trace in traces
+    merge!(root, trace)
+  end
+  root = trimroot(root)
+  root = sortchildren!(root)
+
+  while length(root.children)==1 && length(root.children[1].children)==1
+      root = root.children[1]
+  end
+  return root
 end

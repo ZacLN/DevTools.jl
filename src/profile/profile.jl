@@ -14,7 +14,7 @@ function basepath(file)
   return path
 end
 
-fullpath(file) = isabspath(file) ? file : basepath(file)
+fullpath(file) = isabspath(string(file)) ? string(file) : basepath(string(file))
 
 maprange(x1, x2, y1, y2, p) = (p-x1)/(x2-x1)*(y2-y1)+y1
 
@@ -59,7 +59,7 @@ render(tree::ProfileTree; childscale = widthscale) =
 
 function Base.writemime(io::IO, ::MIME"text/html", tree::ProfileTree)
   write(io, "<style>",
-        readall(Pkg.dir("DevTools", "res", "profile.css")),
+        readstring(Pkg.dir("DevTools", "res", "profile.css")),
         "</style>")
   write(io, """
     <div class="profile">
@@ -68,7 +68,7 @@ function Base.writemime(io::IO, ::MIME"text/html", tree::ProfileTree)
         <div class="file"></div>
       </div>
   """)
-  draw(SVGJS(io, 5inch, 3inch, false), render(tree))
+  draw(SVGJS(io, 140mm, 190mm, false), render(tree))
   write(io, """
     </div>
   """)

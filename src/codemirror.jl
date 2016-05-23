@@ -51,7 +51,7 @@ function Editor(value = ""; file = nothing)
   return ed
 end
 
-editor(f) = Editor(readall(f), file = f)
+editor(f) = Editor(readstring(f), file = f)
 
 setbars(e, ls) = @js_ e Bars.set(cm, $ls)
 barson(e) = @js_ e Bars.on(cm)

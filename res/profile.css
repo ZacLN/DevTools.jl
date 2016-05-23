@@ -1,8 +1,11 @@
 /* Util */
 /* Structure */
+body {background-color:#2d2d2d;}
+
 .profile {
   position: relative;
-  font-family: "Myriad Pro", sans-serif;
+  font-family: "Input Mono", sans-serif;
+  font-size: 10
 }
 
 .profile .tooltip {
@@ -15,7 +18,7 @@
 
 .profile .background {
   fill: transparent;
-/*   fill: black; */
+   /*fill: #2d2d2d; */
 }
 
 .profile .tree rect {
@@ -27,8 +30,6 @@
   font-weight: bold;
 }
 
-/* Light */
-
 .profile .tooltip {
   background: white;
   color: black;
@@ -38,24 +39,10 @@
 }
 
 .profile .tree rect {
-  fill: #464;
+  fill: #d98900;
   stroke: white;
 }
 
 .profile .tree rect:hover {
-  fill: #575;
-}
-
-/* Dark */
-
-.julia-dark .profile .tooltip {
-  background: #404444;
-  color: #DCDCCC;
-  border: 1px solid #222222;
-  box-shadow: 1px 1px 0px #222222;
-  -webkit-border-radius: 5px;
-}
-
-.julia-dark .profile .tree rect {
-  stroke: #404444;
+  fill: #774f0c;
 }

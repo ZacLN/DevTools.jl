@@ -5,8 +5,8 @@ using Compose
 # Scripts for individual frames
 
 function pkgpath(path)
-  m = match(r"([^/\\]+[/\\]src[/\\].*)$", path)
-  m == nothing ? basename(path) : m.captures[1]
+  m = match(r"([^/\\]+[/\\]src[/\\].*)$", string(path))
+  m == nothing ? basename(string(path)) : m.captures[1]
 end
 
 framedata(line, proportion) =

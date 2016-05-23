@@ -12,6 +12,6 @@ include("profile/profile.jl")
 include("codemirror.jl")
 include("collab.jl")
 
-profiler() = ProfileView.fetch()
+profiler(c=false) = render(BlinkDisplay._display,ProfileView.fetch(c))
 
 end # module
