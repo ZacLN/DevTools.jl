@@ -1,6 +1,8 @@
 /* Util */
 /* Structure */
-body {background-color:#2d2d2d;}
+body {background-color:#2d2d2d;
+      font-size: 10;
+      color: white}
 
 .profile {
   position: relative;
@@ -45,4 +47,8 @@ body {background-color:#2d2d2d;}
 
 .profile .tree rect:hover {
   fill: #774f0c;
+}
+
+li{
+  list-style:none;
 }

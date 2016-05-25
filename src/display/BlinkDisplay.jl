@@ -1,6 +1,7 @@
 module BlinkDisplay
 
 using Blink, Media, Lazy, Requires
+using PlotlyJS
 
 include("display.jl")
 include("objects.jl")

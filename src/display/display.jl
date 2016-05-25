@@ -26,13 +26,15 @@ view() = _display
 
 @init setdisplay(Media.Graphical, view())
 
-displaysize(x) = (500, 768)
+displaysize(x) = (500, 500)
 displaytitle(x) = "Julia"
 
 function Media.render(view::WebView, x; options = @d())
   size = displaysize(x)
   w = @or(pinned(view), Window(@d(:width => size[1], :height => size[2])))
   w == pinned(view) || wait(w.content.cb)
+  load!(w,Pkg.dir("DevTools")*"/res/plotly-latest.min.js")
+  load!(w,Pkg.dir("DevTools")*"/res/profile.css")
   html = tohtml(x)
   front(w)
   body!(w.content, html)
