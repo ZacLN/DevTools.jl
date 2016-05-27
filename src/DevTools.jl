@@ -14,6 +14,6 @@ include("collab.jl")
 
 profiler(c=false) = render(BlinkDisplay._display,ProfileView.fetch(c))
 
-export plot,scatter,surface
+export Plot,plot,scatter,surface,histogram
 export codewarn,codellvm,codenative
 end # module

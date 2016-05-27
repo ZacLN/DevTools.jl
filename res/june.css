@@ -1,10 +1,10 @@
 .cm-s-june {
-  background: white;
-  color: black; }
+  background: #2d2d2d;
+  color: white; }
   .cm-s-june span {
     /* Unorthodox Styles */ }
     .cm-s-june span.cm-keyword {
-      color: black;
+      color: white;
       font-weight: bold; }
     .cm-s-june span.cm-atom {
       color: #219; }
@@ -14,15 +14,15 @@
       color: #833;
       font-weight: bold; }
     .cm-s-june span.cm-variable {
-      color: black; }
+      color: white; }
     .cm-s-june span.cm-variable-2 {
-      color: black; }
+      color: white; }
     .cm-s-june span.cm-variable-3 {
-      color: black; }
+      color: white; }
     .cm-s-june span.cm-property {
-      color: black; }
+      color: white; }
     .cm-s-june span.cm-operator {
-      color: black; }
+      color: white; }
     .cm-s-june span.cm-comment {
       color: #999988;
       font-style: italic; }
@@ -72,9 +72,9 @@
     background: #fdd; }
   .cm-s-june div.CodeMirror-cursor {
     /* Override the skin setting */
-    border-left: 1px solid black !important; }
+    border-left: 1px solid #2d2d2d !important; }
   .cm-s-june .CodeMirror-gutter {
-    background: #eee !important;
-    border-right: 1px solid #bbb; }
+    background: #2d2d2d !important;
+    border-right: 1px solid #2d2d2d; }
   .cm-s-june .CodeMirror-selected {
-    background: rgba(0,0,0,0.1); }
+    background: rgba(255, 240, 43, 0.1); }

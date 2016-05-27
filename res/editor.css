@@ -1,11 +1,13 @@
 .CodeMirror {
+  background-color:#2d2d2d;
   font-family: 'DejaVu Sans Mono', 'Consolas', monospace;
   font-size: 9pt;
-  line-height: 1.5;
+  color: white;
+  line-height: 1.1;
   width: 100%;
   height: 100%;
 }
 
 .CodeMirror-activeline-background {
-  background: rgba(0, 0, 100, 0.05);
+  background: rgba(255, 205, 5, 0.15);
 }
